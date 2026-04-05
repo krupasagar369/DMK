@@ -421,6 +421,16 @@ footer .foot-logo-box {
   background:var(--primary); display:flex;align-items:center;justify-content:center;
   font-family:'Outfit',sans-serif; font-weight:700; color:#fff; font-size:.85rem;
 }
+.social-icon {
+  font-size: 20px;
+  color: #555;
+  transition: 0.3s;
+}
+
+.social-icon:hover {
+  color: var(--primary);
+  transform: scale(1.2);
+}
 footer .foot-brand-name { font-family:'Outfit',sans-serif; font-size:.875rem; font-weight:700; line-height:1.2; }
 footer .foot-brand-sub  { font-size:.72rem; color:#94A3B8; }
 footer .foot-text { font-size:.875rem; color:#94A3B8; line-height:1.7; }
