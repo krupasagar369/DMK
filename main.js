@@ -135,3 +135,46 @@ function showToast(msg, type = "success") {
     });
   });
 })();
+
+
+
+const slotButtons = document.querySelectorAll(".slot-btn");
+const selectedSlotInput = document.getElementById("selectedSlot");
+const bookingForm = document.getElementById("bookingForm");
+
+slotButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    slotButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+    selectedSlotInput.value = button.getAttribute("data-slot");
+  });
+});
+
+bookingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const slot = document.getElementById("selectedSlot").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (!slot) {
+    alert("Please select a time slot.");
+    return;
+  }
+
+  const whatsappNumber = "919999999999";
+
+  const whatsappMessage = `New Appointment Booking:
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Time Slot: ${slot}
+Available Days: Monday to Sunday
+Message: ${message}`;
+
+  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  window.open(whatsappURL, "_blank");
+});

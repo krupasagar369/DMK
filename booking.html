@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="book.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>Book Appointment</h1>
+    <p>Select your preferred time slot.</p>
+
+    <div class="slots">
+      <button class="slot-btn" data-slot="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</button>
+      <button class="slot-btn" data-slot="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</button>
+      <button class="slot-btn" data-slot="12:00 PM - 01:00 PM">12:00 PM - 01:00 PM</button>
+      <button class="slot-btn" data-slot="01:00 PM - 02:00 PM">01:00 PM - 02:00 PM</button>
+      <button class="slot-btn" data-slot="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</button>
+      <button class="slot-btn" data-slot="03:00 PM - 04:00 PM">03:00 PM - 04:00 PM</button>
+      <button class="slot-btn" data-slot="04:00 PM - 05:00 PM">04:00 PM - 05:00 PM</button>
+      <button class="slot-btn" data-slot="05:00 PM - 06:00 PM">05:00 PM - 06:00 PM</button>
+      <button class="slot-btn" data-slot="06:00 PM - 07:00 PM">06:00 PM - 07:00 PM</button>
+      <button class="slot-btn" data-slot="07:00 PM - 08:00 PM">07:00 PM - 08:00 PM</button>
+    </div>
+
+    <p class="availability">Available: Monday to Sunday</p>
+
+    <form id="bookingForm" class="booking-form">
+      <input type="text" id="name" placeholder="Enter your name" required />
+      <input type="tel" id="phone" placeholder="Enter your phone number" required />
+      <input type="email" id="email" placeholder="Enter your email" required />
+      <input type="text" id="selectedSlot" placeholder="Selected time slot" readonly required />
+      <textarea id="message" placeholder="Enter your message"></textarea>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
