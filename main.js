@@ -1,180 +1,263 @@
 /* =====================================================
    ENT CLINIC — main.js
    Dr. Desu Murali Krishna | Nellore
+   Complete cleaned main.js
    ===================================================== */
 
 const WHATSAPP_NUMBER = "919398750790";
 
-// ---- Navbar scroll effect ----
+/* =========================
+   Navbar scroll effect
+   ========================= */
 (function () {
   const nav = document.getElementById("mainNav");
   if (!nav) return;
+
   const onScroll = () => {
     nav.classList.toggle("scrolled", window.scrollY > 20);
   };
+
   window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 })();
 
-// ---- Smooth scroll for all anchor links ----
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll('a[href^="#"]').forEach((a) => {
-    a.addEventListener("click", (e) => {
-      const target = document.querySelector(a.getAttribute("href"));
+/* =========================
+   Smooth scroll
+   ========================= */
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
+
+      if (!href || href === "#") return;
+
+      const target = document.querySelector(href);
       if (!target) return;
+
       e.preventDefault();
-      // close mobile navbar if open
+
       const toggler = document.querySelector(".navbar-toggler");
       const collapse = document.querySelector(".navbar-collapse");
-      if (collapse && collapse.classList.contains("show") && toggler) toggler.click();
-      target.scrollIntoView({ behavior: "smooth" });
+
+      if (collapse && collapse.classList.contains("show") && toggler) {
+        toggler.click();
+      }
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     });
   });
 });
 
-// ---- WhatsApp helpers ----
-function openWhatsApp(msg) {
+/* =========================
+   WhatsApp helper
+   ========================= */
+function openWhatsApp(message) {
   const text = encodeURIComponent(
-    msg || "Hello Dr. Desu Murali Krishna, I would like to book an appointment at your ENT clinic."
+    message || "Hello Dr. Desu Murali Krishna, I would like to book an appointment at your ENT clinic."
   );
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
 }
 
-// FAB and mobile sticky buttons
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================
+   Generic WhatsApp buttons
+   ========================= */
+document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("[data-whatsapp]").forEach((btn) => {
-    btn.addEventListener("click", () => openWhatsApp());
+    btn.addEventListener("click", function () {
+      openWhatsApp();
+    });
   });
 });
 
-// ---- Section scroll-reveal ----
+/* =========================
+   Section scroll reveal
+   ========================= */
 (function () {
-  const els = document.querySelectorAll(".section-reveal");
-  if (!els.length) return;
-  const io = new IntersectionObserver(
+  const elements = document.querySelectorAll(".section-reveal");
+  if (!elements.length) return;
+
+  const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("visible");
-          io.unobserve(e.target);
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.12 }
   );
-  els.forEach((el) => io.observe(el));
+
+  elements.forEach((el) => observer.observe(el));
 })();
 
-// ---- Appointment form ----
-(function () {
-  const form = document.getElementById("apptForm");
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const name  = document.getElementById("apptName").value.trim();
-    const phone = document.getElementById("apptPhone").value.trim();
-    const date  = document.getElementById("apptDate").value;
-
-    if (!name || !phone || !date) {
-      showToast("Please fill in all fields.", "danger");
-      return;
-    }
-
-    const btn = form.querySelector(".btn-submit-appt");
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Submitting…`;
-
-    // Simulate short delay then open WhatsApp
-    setTimeout(() => {
-      const readable = new Date(date).toLocaleDateString("en-IN", {
-        day: "2-digit", month: "short", year: "numeric",
-      });
-      const msg =
-        `Hello Dr. Desu Murali Krishna,\n\nI would like to book an appointment.\n\nName: ${name}\nPhone: ${phone}\nPreferred Date: ${readable}\n\nThank you.`;
-      openWhatsApp(msg);
-
-      // Show success
-      form.innerHTML = `
-        <div class="success-box">
-          <div class="s-icon"><i class="bi bi-check-circle-fill"></i></div>
-          <h3 class="h5 mb-2">Appointment Request Sent!</h3>
-          <p class="text-muted small mb-4">We will confirm your appointment on WhatsApp shortly.</p>
-          <button class="btn btn-book" onclick="location.reload()">Book Another Appointment</button>
-        </div>`;
-    }, 600);
-  });
-})();
-
-// ---- Toast helper ----
+/* =========================
+   Toast helper
+   ========================= */
 function showToast(msg, type = "success") {
   const container = document.getElementById("toastContainer");
-  if (!container) return;
+
+  if (!container || typeof bootstrap === "undefined") {
+    alert(msg);
+    return;
+  }
+
   const id = "toast_" + Date.now();
+
   container.insertAdjacentHTML(
     "beforeend",
-    `<div id="${id}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert">
-       <div class="d-flex">
-         <div class="toast-body">${msg}</div>
-         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-       </div>
-     </div>`
+    `
+    <div id="${id}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">${msg}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+    `
   );
+
   const toastEl = document.getElementById(id);
-  new bootstrap.Toast(toastEl, { delay: 3500 }).show();
-  toastEl.addEventListener("hidden.bs.toast", () => toastEl.remove());
+  const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+  toast.show();
+
+  toastEl.addEventListener("hidden.bs.toast", function () {
+    toastEl.remove();
+  });
 }
 
-// ---- FAQ accordion (already handled by Bootstrap) ----
-// ---- Blog card click → navigate to blog.html ----
+/* =========================
+   Blog card click
+   ========================= */
 (function () {
   document.querySelectorAll("[data-blog-id]").forEach((card) => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", function () {
       const id = card.getAttribute("data-blog-id");
       window.location.href = `blog.html#${id}`;
     });
   });
 })();
 
+/* =========================
+   Appointment slot picker
+   ========================= */
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("apptForm");
+  const trigger = document.getElementById("dateTimeTrigger");
+  const preferredDate = document.getElementById("preferredDate");
+  const bookingDate = document.getElementById("bookingDate");
+  const slotPopup = document.getElementById("slotPopup");
+  const timeSlots = document.querySelectorAll(".time-slot");
+  const slotPickerGroup = document.querySelector(".slot-picker-group");
 
+  let selectedSlot = "";
 
-const slotButtons = document.querySelectorAll(".slot-btn");
-const selectedSlotInput = document.getElementById("selectedSlot");
-const bookingForm = document.getElementById("bookingForm");
-
-slotButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    slotButtons.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-    selectedSlotInput.value = button.getAttribute("data-slot");
-  });
-});
-
-bookingForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const slot = document.getElementById("selectedSlot").value.trim();
-  const message = document.getElementById("message").value.trim();
-
-  if (!slot) {
-    alert("Please select a time slot.");
-    return;
+  if (bookingDate) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    bookingDate.min = `${yyyy}-${mm}-${dd}`;
   }
 
-  const whatsappNumber = "919999999999";
+  if (trigger && slotPopup) {
+    trigger.addEventListener("click", function () {
+      slotPopup.classList.toggle("show");
+    });
+  }
 
-  const whatsappMessage = `New Appointment Booking:
+  timeSlots.forEach((slot) => {
+    slot.addEventListener("click", function () {
+      if (!bookingDate || !preferredDate || !slotPopup) return;
+
+      if (!bookingDate.value) {
+        showToast("Please select a date first.", "danger");
+        return;
+      }
+
+      timeSlots.forEach((btn) => btn.classList.remove("active"));
+      this.classList.add("active");
+
+      selectedSlot = this.getAttribute("data-slot");
+
+      const selectedDateObj = new Date(bookingDate.value);
+      const formattedDate = selectedDateObj.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+
+      preferredDate.value = `${formattedDate} | ${selectedSlot}`;
+      slotPopup.classList.remove("show");
+    });
+  });
+
+  if (bookingDate && preferredDate) {
+    bookingDate.addEventListener("change", function () {
+      if (this.value && selectedSlot) {
+        const selectedDateObj = new Date(this.value);
+        const formattedDate = selectedDateObj.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        });
+
+        preferredDate.value = `${formattedDate} | ${selectedSlot}`;
+      }
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    if (slotPickerGroup && slotPopup && !slotPickerGroup.contains(e.target)) {
+      slotPopup.classList.remove("show");
+    }
+  });
+
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("apptName")?.value.trim();
+    const phone = document.getElementById("apptPhone")?.value.trim();
+    const dateSlot = document.getElementById("preferredDate")?.value.trim();
+
+    if (!name || !phone || !dateSlot) {
+      showToast("Please fill in all fields and select date/time slot.", "danger");
+      return;
+    }
+
+    const btn = form.querySelector(".btn-submit-appt");
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Submitting...`;
+    }
+
+    setTimeout(() => {
+      const msg =
+`Hello Dr. Desu Murali Krishna,
+
+I would like to book an appointment.
+
 Name: ${name}
 Phone: ${phone}
-Email: ${email}
-Time Slot: ${slot}
-Available Days: Monday to Sunday
-Message: ${message}`;
+Preferred Date & Time: ${dateSlot}
 
-  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+Thank you.`;
 
-  window.open(whatsappURL, "_blank");
+      openWhatsApp(msg);
+
+      form.innerHTML = `
+        <div class="success-box text-center py-4">
+          <div class="s-icon mb-3"><i class="bi bi-check-circle-fill"></i></div>
+          <h3 class="h5 mb-2">Appointment Request Sent!</h3>
+          <p class="text-muted small mb-4">We will confirm your appointment on WhatsApp shortly.</p>
+          <button type="button" class="btn btn-book" onclick="location.reload()">Book Another Appointment</button>
+        </div>
+      `;
+    }, 600);
+  });
 });

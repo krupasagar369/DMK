@@ -72,7 +72,7 @@
 
         <!-- CTAs -->
         <div class="d-flex flex-wrap gap-3 mb-5">
-         <a href="booking.html" class="btn-book">Book Appointment <i class="bi bi-chevron-right"></i></a>
+          <a href="#apptForm" class="btn-book">Book Appointment <i class="bi bi-chevron-right"></i></a>
           <a href="tel:+919398750790" class="btn-call-hero"><i class="bi bi-telephone-fill"></i> Call Now</a>
           <button class="btn-whatsapp" data-whatsapp><i class="bi bi-whatsapp"></i> WhatsApp</button>
         </div>
@@ -235,13 +235,45 @@
               </div>
             </div>
             <!-- Date -->
-            <div class="mb-4">
-              <label class="form-label">Preferred Date</label>
-              <div class="input-icon-wrap">
-                <i class="bi bi-calendar3"></i>
-                <input type="date" id="apptDate" class="form-control" required>
-              </div>
+            <div class="form-group slot-picker-group">
+    <label for="preferredDate">Preferred Date</label>
+
+    <div class="input-with-icon" id="dateTimeTrigger">
+        <span class="input-icon">📅</span>
+        <input 
+            type="text" 
+            id="preferredDate" 
+            name="preferredDate" 
+            placeholder="Select date and time slot" 
+            readonly 
+            required
+        >
+    </div>
+
+    <div class="slot-popup" id="slotPopup">
+        <div class="slot-popup-header">
+            <h4>Select Date</h4>
+            <input type="date" id="bookingDate" min="">
+        </div>
+
+        <div class="slot-popup-body">
+            <p class="slot-day">Available: Monday to Sunday</p>
+
+            <div class="slot-grid">
+                <button type="button" class="time-slot" data-slot="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</button>
+                <button type="button" class="time-slot" data-slot="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</button>
+                <button type="button" class="time-slot" data-slot="12:00 PM - 01:00 PM">12:00 PM - 01:00 PM</button>
+                <button type="button" class="time-slot" data-slot="01:00 PM - 02:00 PM">01:00 PM - 02:00 PM</button>
+                <button type="button" class="time-slot" data-slot="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</button>
+                <button type="button" class="time-slot" data-slot="03:00 PM - 04:00 PM">03:00 PM - 04:00 PM</button>
+                <button type="button" class="time-slot" data-slot="04:00 PM - 05:00 PM">04:00 PM - 05:00 PM</button>
+                <button type="button" class="time-slot" data-slot="05:00 PM - 06:00 PM">05:00 PM - 06:00 PM</button>
+                <button type="button" class="time-slot" data-slot="06:00 PM - 07:00 PM">06:00 PM - 07:00 PM</button>
+                <button type="button" class="time-slot" data-slot="07:00 PM - 08:00 PM">07:00 PM - 08:00 PM</button>
             </div>
+        </div>
+    </div>
+</div>
             <!-- Submit -->
             <button type="submit" class="btn-submit-appt">
               <i class="bi bi-whatsapp"></i> Book via WhatsApp
@@ -522,7 +554,7 @@
           </div>
         </div>
         <p class="foot-text mb-3">Providing expert ear, nose, and throat care in Nellore with 15+ years of clinical experience.</p>
-         <div class="foot-social mt-3">
+        <div class="foot-social mt-3">
           <a href="#" class="social-icon me-3"><i class="bi bi-instagram"></i></a>
           <a href="#" class="social-icon me-3"><i class="bi bi-facebook"></i></a>
           <a href="#" class="social-icon me-3"><i class="bi bi-twitter-x"></i></a>
